@@ -9,7 +9,7 @@ export const GlobalStyle = createGlobalStyle`
 
     --blue-light: #6933ff;
     --text-title: #fff;
-    --text-body: #e1e1e6;
+    --text-body: #a8a8b3;
 
     --shape: #202024;
   }

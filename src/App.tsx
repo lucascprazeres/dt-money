@@ -12,5 +12,3 @@ export function App() {
     </>
   )
 }
-
-// 8257e6
