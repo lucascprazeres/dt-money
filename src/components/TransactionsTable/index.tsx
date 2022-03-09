@@ -8,7 +8,7 @@ type Transaction = {
   amount: number;
   type: string;
   category: 'deposit' | 'withdraw';
-  createdAt: string;
+  createdAt: Date;
 }
 
 export function TransactionsTable() {
@@ -16,7 +16,7 @@ export function TransactionsTable() {
 
   useEffect(() => {
     api.get('transactions')
-      .then(response => setTransactions(response.data))
+      .then(response => setTransactions(response.data.transactions))
   }, [])
 
   return (

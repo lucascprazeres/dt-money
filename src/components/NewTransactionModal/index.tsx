@@ -1,9 +1,10 @@
+import { FormEvent, useState } from 'react'
 import Modal from 'react-modal'
 import incomeImg from '../../assets/income.svg'
 import outcomeImg from '../../assets/outcome.svg'
 import closeImg from '../../assets/close.svg'
 import { Container, RadioBox, TransactionTypeContainer } from './styles'
-import { useState } from 'react'
+import api from '../../services/api'
 
 type NewTransactionModalProps = {
   isOpen: boolean;
@@ -12,6 +13,24 @@ type NewTransactionModalProps = {
 
 export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionModalProps) {
   const [type, setType] = useState('deposit')
+  const [title, setTitle] = useState('')
+  const [amount, setAmount] = useState(0)
+  const [category, setCategory] = useState('')
+
+  async function handleCreateNewTransaction(event: FormEvent) {
+    event.preventDefault()
+
+    const amountInCents = amount * 100
+
+    const formData = {
+      type,
+      title,
+      amount: amountInCents,
+      category
+    }
+
+    await api.post('/transactions', formData)
+  }
 
   return (
     <Modal
@@ -23,16 +42,20 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
       <button type="button" onClick={onRequestClose} className="react-modal-close">
         <img src={closeImg} alt="Fechar modal" />
       </button>
-      <Container>
+      <Container onSubmit={handleCreateNewTransaction}>
         <h2>Cadastrar transação</h2>
 
         <input
           type="text"
+          value={title}
+          onChange={event => setTitle(event.target.value)}
           placeholder='Título'
         />
 
         <input
           type="number"
+          value={amount}
+          onChange={event => setAmount(Number(event.target.value))}
           placeholder='Valor'
         />
 
@@ -60,6 +83,8 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
 
         <input
           type="text"
+          value={category}
+          onChange={event => setCategory(event.target.value)}
           placeholder='Categoria'
         />
 

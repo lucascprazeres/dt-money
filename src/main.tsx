@@ -1,31 +1,45 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { App } from './App'
-import { createServer } from 'miragejs'
+import { createServer, Model } from 'miragejs'
 
 createServer({
+  models: {
+    transaction: Model,
+  },
+  seeds(server) {
+    server.db.loadData({
+      transactions: [
+        {
+          id: 1,
+          title: 'freenlancing',
+          category: 'Dev',
+          type: 'deposit',
+          amount: 600000,
+          createdAt: new Date('2021-02-12 09:00:00')
+        },
+        {
+          id: 2,
+          title: 'Aluguel',
+          category: 'Casa',
+          type: 'withdraw',
+          amount: 40000,
+          createdAt: new Date('2021-02-14 11:00:00')
+        },
+      ]
+    })
+  },
   routes() {
     this.namespace = 'api'
 
     this.get('/transactions', () => {
-      return [
-        {
-          id: 1,
-          title: 'Desenvolvimento de site',
-          amount: 1200000,
-          type: 'deposit',
-          category: 'Venda',
-          createdAt: '12/04/2021'
-        },
-        {
-          id: 2,
-          title: 'Hamburguer',
-          amount: 5900,
-          type: 'withdraw',
-          category: 'Alimentação',
-          createdAt: '10/04/2021'
-        },
-      ]
+      return this.schema.all('transaction')
+    }),
+
+    this.post('/transactions', (schema, request) => {
+      const formData = JSON.parse(request.requestBody)
+
+      return schema.create('transaction', formData)
     })
   }
 })
