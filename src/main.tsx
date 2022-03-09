@@ -15,7 +15,7 @@ createServer({
           title: 'freenlancing',
           category: 'Dev',
           type: 'deposit',
-          amount: 600000,
+          amount: 6000,
           createdAt: new Date('2021-02-12 09:00:00')
         },
         {
@@ -23,7 +23,7 @@ createServer({
           title: 'Aluguel',
           category: 'Casa',
           type: 'withdraw',
-          amount: 40000,
+          amount: 400,
           createdAt: new Date('2021-02-14 11:00:00')
         },
       ]
