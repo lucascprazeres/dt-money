@@ -8,7 +8,7 @@ type Transaction = {
   amount: number;
   type: string;
   category: 'deposit' | 'withdraw';
-  createdAt: Date;
+  createdAt: string;
 }
 
 export function TransactionsTable() {
@@ -36,12 +36,13 @@ export function TransactionsTable() {
             <tr key={transaction.id}>
               <td>{transaction.title}</td>
               <td className={transaction.type}>
-                {transaction.type === 'withdraw'
-                  ? `- R$ ${transaction.amount / 100}`
-                  : `R$ ${transaction.amount / 100}`}
+                {new Intl.NumberFormat('pt-br', {
+                  style: 'currency',
+                  currency: 'BRL'
+                }).format(transaction.amount / 100)}
               </td>
               <td>{transaction.category}</td>
-              <td>{transaction.createdAt}</td>
+              <td>{new Intl.DateTimeFormat('pt-br').format(new Date(transaction.createdAt))}</td>
             </tr>
           ))}
         </tbody>
